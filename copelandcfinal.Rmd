@@ -1,0 +1,84 @@
+---
+title: "Top Clothing Purchases in the UK "
+author: "Cassandra Copeland"
+date: "4/28/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+# Required Packages:
+
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org") # We need this for read_csv as well
+# as ggplot2 functions.
+urlfile <- "https://raw.githubusercontent.com/ccopeland1/is4300project/main/UK_Commerce.csv"
+UK <- read_csv(url(urlfile))
+```
+
+### Introduction
+The goal is to find and analyze the most popular clothing items in the UK. The first step was to clean the dataset and filter to the only UK. After cleaning the original dataset, it was uploaded to GitHub and then imported into R.
+To find the most popular purchased clothing item in the UK, the top seven ordered functions were used.
+
+### Visualization
+The top seven clothing items were the following Hand Warmer Union Jack, Hand Warmer Scotty Dog Design, White Hanging Heart T-Light Holder, Hand Warmer Owl Design, Paper Chain Kit 50’s Christmas, Paper Chain Kit Vintage Christmas, Hand Warmer Red Retrospot. To create a visually appealing plot, the names were shortened to fit the plot.
+The top seven clothing item is showed below in a bar plot.
+
+
+```{r include= FALSE}
+
+purchases <- UK [,3]
+# str(purchases)
+item_count= table(purchases)
+decreasing_item_count= order(item_count, decreasing = TRUE)
+ordered_items= item_count[decreasing_item_count]
+```
+
+```{r include= FALSE}
+#Plot the top 7 
+top_seven_ordered= ordered_items[1:7]
+names(top_seven_ordered) <- c("HW Union","HW Dog", "Light Holder", "HQ Owl", "PCK 50s", "PCK Vintage", "HW Retro")
+```
+
+```{r}
+ barplot(top_seven_ordered, las=1, col="deepskyblue1",cex.names = 0.7,
+        main = "Top Seven Clothing Pieces")
+```
+
+### Analysis 
+
+After finding the data, the goal is to find the interval confidence level and mean of the unit price of items purchased. 
+
+
+```{r include= FALSE}
+
+T <- t.test(UK$UnitPrice,conf.level = .9)
+
+```
+
+```{r}
+T$conf.int
+T$estimate
+
+```
+The confidence level is shown above between (3.621488 4.091620) and the mean of the unit price is 3.856554. 
+From these numbers, there is 90 percent confidence that the mean will fall between 3.621488 and 4.091620. 
+
+``` {r include =FALSE}
+#analysis quantitative purchase quantity variables 
+#analysis on the quantity to provide a confidence variables of how many purchaces
+#compute them r confidence interval very simple
+#90 confidence interval of purchases
+
+#Introduction goal to analysis items top 7 order purchases as well as provde confidence interval of things ordered.
+#Analysis confidence interval 90 eprcent confident that it is going to fall in between the two numbers 
+```
+
+
+### Conclusion
+
+Through the analysis, the top seven clothing items were the following Hand Warmer Union Jack, Hand Warmer Scotty Dog Design, White Hanging Heart T-Light Holder, Hand Warmer Owl Design, Paper Chain Kit 50’s Christmas, Paper Chain Kit Vintage Christmas, Hand Warmer Red Retrospot. Also, the analysis found the level of confidence for the unit price will fall in between 3.621488 and 4.091620. The mean is in the middle of the interval which shows that the mean unit price is consistent with the interval. 
